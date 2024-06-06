@@ -28,7 +28,7 @@ define('BASE_DIR', dirname(__FILE__));
   <body>
     <main class="container">
       <div class="py-5 px-3">
-        <?php include("main.php"); ?>
+        <?php include("route.php"); ?>
       </div>
     </main>
 
