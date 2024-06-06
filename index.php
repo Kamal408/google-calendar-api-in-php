@@ -1,8 +1,9 @@
 <?php 
 session_start();
+//session_destroy();
 
-// ini_set('display_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 require 'vendor/autoload.php';
 
@@ -11,6 +12,8 @@ $dotenv->load();
 
 define('URL', $_ENV['URL']);
 define('BASE_DIR', dirname(__FILE__));
+
+$google = new GoogleLibrary();
 ?>
 
 <!doctype html>

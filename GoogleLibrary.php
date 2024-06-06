@@ -16,8 +16,4 @@ class GoogleLibrary
         $this->client->setAuthConfig('client_secret.json');
         $this->client->addScope(Calendar::CALENDAR);
     }
-
-    
-
-
 }
