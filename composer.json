@@ -1,0 +1,12 @@
+{
+    "name": "kamal/intuji_calendar",
+    "authors": [
+        {
+            "name": "Kamal Kafle",
+            "email": "kamal.kafle1@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
