@@ -6,8 +6,12 @@
             "email": "kamal.kafle1@gmail.com"
         }
     ],
+    "autoload": {
+        "classmap": ["GoogleLibrary.php", "Controller"]
+    },
     "require": {
         "vlucas/phpdotenv": "^5.6",
+        "google/apiclient": "^2.16",
         "bramus/router": "^1.6"
     }
 }
