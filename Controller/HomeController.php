@@ -10,10 +10,16 @@ class HomeController extends BaseController {
 		}
 	}
 	
-	public function index(){
+	public function index()
+	{
 		global $google;
-		$eventLists = $google->getCalendarList(); 
-		include($this->viewFolder."/main.php");
+		$response = $google->getCalendarList();
+
+		if ($response['success']) {
+			$eventLists = $response['data'];
+		}
+
+		include($this->viewFolder . "/main.php");
 	}
 
 }

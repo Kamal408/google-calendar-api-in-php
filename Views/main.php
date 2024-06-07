@@ -1,8 +1,17 @@
 <section class="m-auto w-3/4">
-    <div class="flex items-center justify-between">
+    
+    <div class="flex items-center justify-between mt-10">
         <h2 class="text-2xl font-bold text-stone-700 mb-4">Events</h2>
         <a class="px-4 py-2 text-xs md:text-base rounded-md bg-stone-700 text-stone-400 hover:bg-stone-600 hover:text-stone-100" href="<?php echo URL . 'calendar/event/add' ?>">+ Add Event</a>
     </div>
+
+    <?php if (!empty($_GET["status"])) {
+        if ($_GET["status"] === "success")
+            echo "<p class=\"mt-8 p-4 rounded-md text-green-700 bg-stone-200\">" . ($_GET['message'] ? htmlspecialchars($_GET['message']) : "Success") . "</p>";
+        else if ($_GET["status"] === "error")
+            echo "<p class=\"mt-8 p-4 rounded-md text-red-700 bg-stone-200\">" . ($_GET['message'] ? htmlspecialchars($_GET['message']) : "Error") . "</p>";
+    } ?>
+
     <?php
 
     if (empty($eventLists)) {

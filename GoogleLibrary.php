@@ -23,40 +23,84 @@ class GoogleLibrary
             $this->client->setAccessToken($_SESSION['auth_credentials']);
             if ($this->client->isAccessTokenExpired()) {
                 echo "Session Expired";
-                $_SESSION['auth_credentials'] = $this->client->fetchAccessTokenWithRefreshToken();
+                $this->client->revokeToken();
+                session_destroy();
+                header('Location: ' . URL);
+                exit();
+                //$_SESSION['auth_credentials'] = $this->client->fetchAccessTokenWithRefreshToken();
             }
         }
     }
 
     public function getCalendarList()
     {
-        $service = new Google_Service_Calendar($this->client);
-        $parameters = array(
-            'maxResults' => 10,
-            'orderBy' => 'startTime',
-            'singleEvents' => true,
-            'timeMin' => date('c'),
-        );
-        $results = $service->events->listEvents($this->calendarId, $parameters);
-        return $results->getItems();
+        try {
+            $service = new Google_Service_Calendar($this->client);
+            $parameters = array(
+                'maxResults' => 10,
+                'orderBy' => 'startTime',
+                'singleEvents' => true,
+                'timeMin' => date('c'),
+            );
+            $results = $service->events->listEvents($this->calendarId, $parameters);
+            return [
+                "success" => true,
+                "data" => $results->getItems()
+            ];
+        } catch (Google_Service_Exception  $ex) {
+            return [
+                "success" => false,
+                "message" => json_decode($ex->getMessage())->error->message
+            ];
+        }
     }
 
     public function addEvent($data)
     {
-        $service = new Google_Service_Calendar($this->client);
-        $event = new Google_Service_Calendar_Event($data);
-        $service->events->insert($this->calendarId, $event);
+        try {
+            $service = new Google_Service_Calendar($this->client);
+            $event = new Google_Service_Calendar_Event($data);
+            $service->events->insert($this->calendarId, $event);
+            return [
+                "success" => true
+            ];
+        } catch (Google_Service_Exception  $ex) {
+            return [
+                "success" => false,
+                "message" => json_decode($ex->getMessage())->error->message
+            ];
+        }
     }
 
     public function deleteEvent($eventId)
     {
-        $service = new Google_Service_Calendar($this->client);
-        $service->events->delete($this->calendarId, $eventId);
+        try {
+            $service = new Google_Service_Calendar($this->client);
+            $service->events->delete($this->calendarId, $eventId);
+            return [
+                "success" => true
+            ];
+        } catch (Google_Service_Exception  $ex) {
+            return [
+                "success" => false,
+                "message" => json_decode($ex->getMessage())->error->message
+            ];
+        }
     }
 
     public function getEvent($eventId)
     {
-        $service = new Google_Service_Calendar($this->client);
-        return $service->events->get($this->calendarId, $eventId);
+        try {
+            $service = new Google_Service_Calendar($this->client);
+            return [
+                "success" => true,
+                "data" => $service->events->get($this->calendarId, $eventId)
+            ];
+        } catch (Google_Service_Exception  $ex) {
+            return [
+                "success" => false,
+                "message" => json_decode($ex->getMessage())->error->message
+            ];
+        }
     }
 }

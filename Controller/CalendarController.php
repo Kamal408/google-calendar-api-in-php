@@ -12,13 +12,6 @@ class CalendarController extends BaseController
 		}
 	}
 
-	public function index()
-	{
-		global $google;
-		$eventLists = $google->getCalendarList();
-		include($this->viewFolder . "/main.php");
-	}
-
 	public function addEvent()
 	{
 		include($this->viewFolder . "/add_event.php");
@@ -29,45 +22,56 @@ class CalendarController extends BaseController
 		global $google;
 
 		$data = [
-            'summary' => $_POST['summary'],
-            'description' => $_POST['description'],
+			'summary' => $_POST['summary'],
+			'description' => $_POST['description'],
 		];
 
 		$data['start'] =  [
-			//'dateTime' => '2024-06-07T09:00:00-07:00',
-			'dateTime' => date(DATE_RFC3339, strtotime($_POST["startDate"]." ".$_POST["startTime"]))
+			'dateTime' => date(DATE_RFC3339, strtotime($_POST["startDate"] . " " . $_POST["startTime"]))
 		];
 
 		$data['end'] =  [
-			//'dateTime' => '2024-06-07T09:00:00-07:00',
-			'dateTime' => date(DATE_RFC3339, strtotime($_POST["endDate"]." ".$_POST["endTime"]))
+			'dateTime' => date(DATE_RFC3339, strtotime($_POST["endDate"] . " " . $_POST["endTime"]))
 		];
 
-		if(!empty($_POST["attendees"])){
+		if (!empty($_POST["attendees"])) {
 			$attendiesArray = explode(",", $_POST["attendees"]);
-
-			$data['attendees'] = array_map(fn($value): array => ['email' => $value], $attendiesArray);
+			//TODO: validate email
+			$data['attendees'] = array_map(fn ($value): array => ['email' => $value], $attendiesArray);
 		}
 
-// echo "<pre>";
-// print_r($data);
-// echo "</pre>";
-		$google->addEvent($data);
-		$this->redirect(URL);
+		$response = $google->addEvent($data);
+
+		if($response["success"]){
+			$this->redirect(URL."?status=success&message=Event Added Successfully.");
+		} else {
+			include($this->viewFolder . "/add_event.php");
+		}
+		
 	}
 
 	public function confirmDeleteEvent($eventId)
 	{
 		global $google;
-		$event = $google->getEvent($eventId);
-		//print_r($event);
-		include($this->viewFolder . "/delete_event.php");
+		$response = $google->getEvent($eventId);
+		if($response["success"]){
+			$event = $response["data"];
+			include($this->viewFolder . "/delete_event.php");
+		} else {
+			include($this->viewFolder . "/404.php");
+		}
+		
 	}
 
 	public function deleteEvent()
 	{
 		global $google;
-		$google->deleteEvent($_POST['eventId']);
-		$this->redirect(URL);
-	} 
+		$response = $google->deleteEvent($_POST['eventId']);
+
+		if($response["success"]){
+			$this->redirect(URL."?status=success&message=Event Removed Successfully.");
+		} else {
+			$this->redirect(URL."?status=error&message=".urlencode($response["message"]));
+		}
+	}
 }
