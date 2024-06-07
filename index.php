@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 //session_destroy();
 
@@ -18,22 +18,29 @@ $google = new GoogleLibrary();
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Registration Module</title>
-  </head>
-  <body>
-    <main class="container">
-      <div class="py-5 px-3">
-        <?php include("route.php"); ?>
-      </div>
-    </main>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  </body>
+  <title>Google Calendar</title>
+</head>
+
+<body>
+
+  <main class="h-screen my-8 gap-8">
+    <header class="flex items-center justify-between m-auto w-3/4 pb-10">
+      <h2 class="text-xl font-bold text-stone-700 mb-4">Google Calendar App</h2>
+      <?php if (!empty($_SESSION["auth_credentials"])) { ?>
+        <a class="px-4 py-2 rounded-md text-red-700 hover:text-red-200" href="<?php echo URL . 'logout' ?>">Logout</a>
+      <?php } ?>
+    </header>
+    <?php include("route.php"); ?>
+  </main>
+
+</body>
+
 </html>

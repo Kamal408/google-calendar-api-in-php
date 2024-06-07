@@ -53,4 +53,10 @@ class GoogleLibrary
         $service = new Google_Service_Calendar($this->client);
         $service->events->delete($this->calendarId, $eventId);
     }
+
+    public function getEvent($eventId)
+    {
+        $service = new Google_Service_Calendar($this->client);
+        return $service->events->get($this->calendarId, $eventId);
+    }
 }
