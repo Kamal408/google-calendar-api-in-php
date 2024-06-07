@@ -30,22 +30,27 @@ class GoogleLibrary
 
     public function getCalendarList()
     {
-        $service = new Calendar($this->client);
-        
+        $service = new Google_Service_Calendar($this->client);
         $parameters = array(
-
             'maxResults' => 10,
-
             'orderBy' => 'startTime',
-
             'singleEvents' => true,
-
             'timeMin' => date('c'),
-
         );
-
         $results = $service->events->listEvents($this->calendarId, $parameters);
-
         return $results->getItems();
+    }
+
+    public function addEvent($data)
+    {
+        $service = new Google_Service_Calendar($this->client);
+        $event = new Google_Service_Calendar_Event($data);
+        $service->events->insert($this->calendarId, $event);
+    }
+
+    public function deleteEvent($eventId)
+    {
+        $service = new Google_Service_Calendar($this->client);
+        $service->events->delete($this->calendarId, $eventId);
     }
 }

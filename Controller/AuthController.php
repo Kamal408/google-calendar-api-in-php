@@ -24,4 +24,11 @@ class AuthController extends BaseController
 		$auth_url = $google->client->createAuthUrl();
 		include($this->viewFolder . "/login.php");
 	}
+	
+	public function logout(){
+		global $google;
+		$google->client->revokeToken();
+		session_destroy();
+		$this->redirect(URL.'login');
+	}
 }
