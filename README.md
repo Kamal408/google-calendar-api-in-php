@@ -9,7 +9,7 @@ Configure Configure OAuth consent [https://developers.google.com/workspace/guide
 
 `client_secret.json` for OAuth 2.0 Client Credentials
 
-Add `http://{projectroot}/login` example `http://localhost/intuji_calendar/login` in Authorized redirect URIs of `client_secret`
+Add `http://{projectroot}/login` example `http://localhost/intuji-assignment/login` in Authorized redirect URIs of `client_secret`
 
 ## Instruction to run project
 Install Packages using `composer`
