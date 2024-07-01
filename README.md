@@ -1,6 +1,6 @@
 ## About The Project
 
-Sample project to manage Google Calendat API using PHP
+Sample project to manage Google Calendar API using PHP
 
 ## Required
 Setup Google Cloud to use Calendar API. Follow [https://developers.google.com/calendar/api/guides/overview](https://developers.google.com/calendar/api/guides/overview)
